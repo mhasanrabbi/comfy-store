@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import { FaCheck } from 'react-icons/fa';
 import { useCartContext } from '../context/cart_context';
 import AmountButtons from './AmountButtons';
-
 const AddToCart = ({ product }) => {
+  // add to cart
   const { addToCart } = useCartContext();
   const { id, stock, colors } = product;
-
   const [mainColor, setMainColor] = useState(colors[0]);
   const [amount, setAmount] = useState(1);
 
@@ -21,21 +20,19 @@ const AddToCart = ({ product }) => {
       return tempAmount;
     });
   };
-
   const decrease = () => {
     setAmount((oldAmount) => {
       let tempAmount = oldAmount - 1;
       if (tempAmount < 1) {
-        tempAmount = stock;
+        tempAmount = 1;
       }
       return tempAmount;
     });
   };
-
   return (
     <Wrapper>
       <div className='colors'>
-        <span> colors : </span>
+        <span>colors :</span>
         <div>
           {colors.map((color, index) => {
             return (
@@ -55,13 +52,14 @@ const AddToCart = ({ product }) => {
       </div>
       <div className='btn-container'>
         <AmountButtons
-          amount={amount}
           increase={increase}
           decrease={decrease}
+          amount={amount}
         />
+
         <Link
           to='/cart'
-          class='btn'
+          className='btn'
           onClick={() => addToCart(id, mainColor, amount, product)}
         >
           add to cart
@@ -70,7 +68,6 @@ const AddToCart = ({ product }) => {
     </Wrapper>
   );
 };
-
 const Wrapper = styled.section`
   margin-top: 2rem;
   .colors {
